@@ -1,0 +1,10 @@
+{
+    "files.exclude": {
+        "__pycache__": true,
+        "checkpoints": true,
+        "env": true,
+        "data": true
+    },
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true
+}
