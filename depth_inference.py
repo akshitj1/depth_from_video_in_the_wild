@@ -16,13 +16,20 @@ flags.DEFINE_string('input_image_path', None,
                     'image to evaluate depth on.')
 flags.DEFINE_string('checkpoint_dir', None, 'Directory containing checkpoints '
                     'to evaluate.')
+flags.DEFINE_string('dataset', None, 'kitti/euroc. used to define image dims')
 
 
 FLAGS = flags.FLAGS
 
 
-def depth_inference():
-    model_input_img_size = (416, 128)  # w,h
+def depth_inference(dataset='kitti'):
+    if dataset == 'kitti':
+        model_input_img_size = (416, 128)  # w,h
+    elif dataset == 'euroc':
+        model_input_img_size = (384, 256)  # w,h
+    else:
+        raise Exception('invalid dataset: {}'.format(dataset))
+
     img_in = load_image(FLAGS.input_image_path, resize=model_input_img_size)
     inference_model = model.Model(
         is_training=False,
@@ -34,7 +41,6 @@ def depth_inference():
     with tf.Session() as sess:
         checkpoint = tf.train.latest_checkpoint(FLAGS.checkpoint_dir)
         saver.restore(sess, checkpoint)
-        # Each image is a sequence of 3 frames. We use only the first 2.
         depth_imgs = inference_model.inference_depth([img_in], sess)
         depth_img = depth_imgs[0]
     print('depth image of dimension: {}\nsample pixel: {}'.format(
@@ -48,7 +54,7 @@ def depth_inference():
 
 
 def main(_):
-    depth_inference()
+    depth_inference(FLAGS.dataset)
 
 
 if __name__ == '__main__':

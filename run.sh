@@ -17,8 +17,22 @@ set -e
 set -x
 
 # source env/bin/activate
+# euroc
+DATASET=euroc
+CKPT_DIR=checkpoints/depth_from_video_in_the_wild_euroc_ckpt_MachineHallAll
+# vicon room
+#IN_IMAGE=/Volumes/external/workspace/datasets/V2_01_easy/mav0/cam0/data/1413393300955760384.png
+# machine hall
+IN_IMAGE=/Volumes/external/workspace/datasets/MH_01_easy/1403636737313555456.png
 
+# kitti
+# CKPT_DIR=checkpoints/cityscapes_kitti_learned_intrinsics
+# IN_IMAGE=/Users/akshitjain/ext/workspace/datasets/kitti_2012/2011_09_26/2011_09_26_drive_0035_sync/image_02/data/0000000000.png
+# DATASET=kitti
+
+# kitti
 python -m depth_inference \
-  --input_image_path=/Users/akshitjain/ext/workspace/datasets/kitti_2012/2011_09_26/2011_09_26_drive_0035_sync/image_02/data/0000000000.png \
-  --checkpoint_dir=checkpoints/cityscapes_kitti_learned_intrinsics \
+  --dataset=$DATASET \
+  --input_image_path=$IN_IMAGE \
+  --checkpoint_dir=$CKPT_DIR \
   --depth_image_dir=data
