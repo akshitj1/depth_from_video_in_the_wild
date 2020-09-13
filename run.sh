@@ -19,6 +19,6 @@ set -x
 # source env/bin/activate
 
 python -m depth_inference \
-  --input_image_path=data/drive.png \
+  --input_image_path=/Users/akshitjain/ext/workspace/datasets/kitti_2012/2011_09_26/2011_09_26_drive_0035_sync/image_02/data/0000000000.png \
   --checkpoint_dir=checkpoints/cityscapes_kitti_learned_intrinsics \
   --depth_image_dir=data

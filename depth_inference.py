@@ -5,6 +5,7 @@ from absl import logging
 import cv2
 import numpy as np
 import tensorflow.compat.v1 as tf
+from os import path
 
 from util import load_image
 import model
@@ -38,10 +39,12 @@ def depth_inference():
         depth_img = depth_imgs[0]
     print('depth image of dimension: {}\nsample pixel: {}'.format(
         depth_img.shape, depth_img[0, 0]))
-    depth_image_path = FLAGS.depth_image_dir+'/depth_img.png'
-    cv2.imwrite(depth_image_path, depth_img)
-    np.save(FLAGS.depth_image_dir+'/depth.npy', depth_img)
-    logging.info('Depth image written to {}'.format(depth_image_path))
+    in_img_name = path.splitext(path.basename(FLAGS.input_image_path))[0]
+    depth_map_path = '{}/{}_depth.npy'.format(
+        FLAGS.depth_image_dir, in_img_name)
+    # cv2.imwrite(depth_image_path, depth_img)
+    np.save(depth_map_path, depth_img)
+    logging.info('Depth map written to {}'.format(depth_map_path))
 
 
 def main(_):
